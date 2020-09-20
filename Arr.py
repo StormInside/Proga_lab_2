@@ -1,5 +1,5 @@
 import bisect
-from heapq import merge
+from heapq import merge as heapq_merge
 
 class Arr:
 
@@ -29,6 +29,8 @@ class Arr:
         else:
             print("No item!")
 
+        return self.array
+
 
     def add_multiple(self, content):
 
@@ -40,6 +42,8 @@ class Arr:
         else:
             print("No content!")
 
+        return self.array
+
 
     def dell_one(self, item):
 
@@ -48,6 +52,8 @@ class Arr:
 
         except ValueError:
             print(f"No item '{item}' in array")
+
+        return self.array
 
 
     def dell_multiple(self, content):
@@ -60,25 +66,48 @@ class Arr:
         else:
             print("No content!")
 
+        return self.array
+
 
     def clear(self):
 
         self.array = []
+
+        return self.array
 
 
     def merge(self, content, to_list = False):
 
         if content:
 
-            array = list(merge(self.array, content))
+            if content.ascending_order == self.ascending_order:
+
+                array = list(heapq_merge(self.array, content.to_list()))
+            else:
+                array = list(heapq_merge(self.array, content.ch_order()))
 
             if to_list:
+
                 return array
             else:
                 self.array = array
+                return self.array
 
         else:
             print("No content!")
+
+
+    def ch_order(self):
+
+        self.ascending_order = not self.ascending_order
+
+        if self.ascending_order:
+            self.array.sort()
+        else:
+            self.array.sort(reverse=True)
+
+        return self.array
+
 
 
     def reverse_insort(self, item):
@@ -95,6 +124,9 @@ class Arr:
 
         self.array.insert(start, item)
 
+
+    def to_list(self):
+        return self.array
 
     def __str__(self):
         return str(self.array)
