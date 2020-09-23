@@ -25,9 +25,11 @@ class Arr:
 
                     self.reverse_insort(item)   # bisect cant work with descending lists
             else:
-                print(f"Error addind item to array, '{item}' is not a number!")
+                # print(f"Error addind item to array, '{item}' is not a number!")
+                raise TypeError(f"Error addind item to array, '{item}' is not a number!")
         else:
-            print("No item!")
+            raise TypeError("No item!")
+            # print("No item!")
 
         return self.array
 
@@ -40,7 +42,8 @@ class Arr:
                 self.add_one(item)
 
         else:
-            print("No content!")
+            raise TypeError("No content!")
+            # print("No content!")
 
         return self.array
 
@@ -51,7 +54,8 @@ class Arr:
             self.array.remove(item)
 
         except ValueError:
-            print(f"No item '{item}' in array")
+            raise KeyError(f"No item '{item}' in array")
+            # print(f"No item '{item}' in array")
 
         return self.array
 
@@ -64,7 +68,8 @@ class Arr:
                 self.dell_one(item)
 
         else:
-            print("No content!")
+            raise TypeError("No content!")
+            # print("No content!")
 
         return self.array
 
@@ -82,9 +87,9 @@ class Arr:
 
             if content.ascending_order == self.ascending_order:
 
-                array = list(heapq_merge(self.array, content.to_list()))
+                array = list(heapq_merge(self.array, content.to_list(), reverse = not self.ascending_order))
             else:
-                array = list(heapq_merge(self.array, content.ch_order()))
+                array = list(heapq_merge(self.array, content.ch_order(to_list=True), reverse = not self.ascending_order))
 
             if to_list:
 
@@ -94,20 +99,29 @@ class Arr:
                 return self.array
 
         else:
-            print("No content!")
+            raise TypeError("No content!")
+            # print("No content!")
 
 
-    def ch_order(self):
+    def ch_order(self, to_list = False):
+        
+        if not to_list:
 
-        self.ascending_order = not self.ascending_order
+            self.ascending_order = not self.ascending_order
 
-        if self.ascending_order:
-            self.array.sort()
+            if self.ascending_order:
+
+                self.array.sort()
+            else:
+                self.array.sort(reverse=True)
         else:
-            self.array.sort(reverse=True)
+            if self.ascending_order:
+                
+                return sorted(self.array, reverse=True)
+            else:
+                return sorted(self.array)
 
         return self.array
-
 
 
     def reverse_insort(self, item):
@@ -132,6 +146,28 @@ class Arr:
         return str(self.array)
         
 
-            
 
 
+
+
+
+
+
+
+
+
+        
+# arr = Arr()
+
+# arr.add_multiple([1,2,3])
+
+# arr2 = Arr(content=[1,2,3], ascending_order=False)
+
+# print(arr)
+
+# print(arr2.ascending_order)
+# print(arr.ch_order(to_list=True))
+
+# print(arr2.merge(arr, to_list=True))
+
+# print(arr.merge(arr2, to_list=True))
