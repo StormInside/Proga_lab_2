@@ -83,7 +83,7 @@ class Arr:
 
     def merge(self, content, to_list = False):
 
-        if content:
+        if type(content) is Arr:
 
             if content.ascending_order == self.ascending_order:
 
@@ -98,8 +98,22 @@ class Arr:
                 self.array = array
                 return self.array
 
+        elif type(content) is list:
+
+            if self.ascending_order:
+
+                array = list(heapq_merge(self.array, sorted(content)))
+            else:
+                array = list(heapq_merge(self.array, sorted(content, reverse=True), reverse = True))
+
+            if to_list:
+
+                return array
+            else:
+                self.array = array
+                return self.array
         else:
-            raise TypeError("No content!")
+            raise TypeError("Wrong content!")
             # print("No content!")
 
 
@@ -146,28 +160,3 @@ class Arr:
         return str(self.array)
         
 
-
-
-
-
-
-
-
-
-
-
-        
-# arr = Arr()
-
-# arr.add_multiple([1,2,3])
-
-# arr2 = Arr(content=[1,2,3], ascending_order=False)
-
-# print(arr)
-
-# print(arr2.ascending_order)
-# print(arr.ch_order(to_list=True))
-
-# print(arr2.merge(arr, to_list=True))
-
-# print(arr.merge(arr2, to_list=True))
