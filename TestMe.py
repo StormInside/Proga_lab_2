@@ -2,7 +2,7 @@ import unittest
 import random
 from Arr import Arr
 
-class Test(unittest.TestCase):
+class TestMe(unittest.TestCase):
 
     def setUp(self):
 
