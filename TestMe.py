@@ -7,6 +7,7 @@ class TestMe(unittest.TestCase):
     def setUp(self):
 
         self.randomlist = random.sample(range(-1000, 1000), 50)
+        print(self.randomlist)
         self.testlists = [[1,4,6,4,5,2], [-100,400,60,400,-5000,0], [100,100,100,100,100,100, 2], [5], []]
 
         self.arr1 = Arr()
