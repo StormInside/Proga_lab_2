@@ -84,6 +84,9 @@ class TestMe(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    import xmlrunner
+    runner = xmlrunner.XMLTestRunner(output='test-reports')
+    unittest.main(testRunner=runner)
     unittest.main()
     
     
