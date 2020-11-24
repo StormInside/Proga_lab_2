@@ -31,7 +31,7 @@ pipeline {
     }
     success {
       echo "Application testing successfully completed "
-      sh 'apt-get install docker'
+      sh 'docker ps'
     }
     failure {
       echo "Oooppss!!! Tests failed!"
