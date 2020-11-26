@@ -40,5 +40,24 @@ pipeline {
     }
   } // post
   }// stage Test
+    stage('Docker Publish')
+		{
+            agent any
+            when {
+                expression {
+                    currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                }
+            }
+            steps {
+                echo "Application Publishing"
+                checkout scm
+                script {
+                    def customImage = docker.build("docker-test:${env.BUILD_ID}")
+                    //docker.withRegistry('',registryCredential )
+                    //{
+                    //    customImage.push()}
+                    //}
+
+            }
   } // stages
 }
