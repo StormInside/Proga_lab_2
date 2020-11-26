@@ -1,46 +1,64 @@
-pipeline {
-  options {timestamps()}
-  agent none
-  stages {
-    stage('Check scm') {
-    agent any 
-    steps {
-      checkout scm
+pipeline
+{
+    environment {
+        registryCredential = 'dockerhub'
+        dockerImage = ''
     }
-  }// stage Build
-  stage('Build') { 
-    steps {
-      echo "Building ...${BUILD_NUMBER}"
-      echo "Build completed"
-    }
-  }// stage Build
-  stage('Test') {
-      agent { docker {image 'alpine'
-      args '-u=\"root\"'
-    }
-  }
-  steps {
-    sh 'apk add python3 py-pip'
-    sh 'apk add docker'
-    sh 'apk add python3'
-    sh 'pip install Flask'
-    sh 'pip install xmlrunner'
-    sh 'python3 TestMe.py'
-  }
-  post{ 
-    always {
-      junit 'test-reports/*.xml'
-    }
-    success {
-      echo "Application testing successfully completed "
-      sh 'docker build .'
-    }
-    failure {
-      echo "Oooppss!!! Tests failed!"
-    }
-  } // post
-  }// stage Test
-    stage('Docker Publish')
+	options
+	{
+		timestamps()
+	}
+	agent none
+	stages
+	{
+		stage('Check scm')
+		{
+			agent any
+			steps
+			{
+				checkout scm
+			}
+		} // stage Build
+		stage('Build')
+		{
+			steps
+			{
+				echo "Building ...${BUILD_NUMBER}"
+				echo "Build completed"
+			}
+		} // stage Build
+		stage('Test')
+		{
+			agent
+			{
+				docker
+				{
+					image 'python:3.8.6-slim'
+					args '-u=\"root\"'
+				}
+			}
+			steps
+			{
+				sh 'pip install --no-cache-dir -r ./requirements.txt'
+				sh 'python3 unitTest.py'
+			}
+			post
+			{
+				always
+				{
+					junit 'test-reports/*.xml'
+				}
+				success
+				{
+					echo "Application testing successfully completed "
+				}
+				failure
+				{
+					echo "Oooppss!!! Tests failed!"
+				}
+			} // post
+		} // stage Test
+		stage('Docker Publish')
 		{
             agent any
             when {
@@ -53,11 +71,12 @@ pipeline {
                 checkout scm
                 script {
                     def customImage = docker.build("docker-test:${env.BUILD_ID}")
-                    //docker.withRegistry('',registryCredential )
-                    //{
-                    //    customImage.push()}
-                    //}
+                    docker.withRegistry('',registryCredential )
+                    {
+                        customImage.push()}
+                    }
 
             }
-  } // stages
+		} // stage Build
+	} // stages
 }
