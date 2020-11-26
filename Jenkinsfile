@@ -15,12 +15,14 @@ pipeline {
     }
   }// stage Build
   stage('Test') {
-      agent { docker {image 'python'
+      agent { docker {image 'alpine'
       args '-u=\"root\"'
     }
   }
   steps {
-    //sh 'apk add -update python3 py-pip'
+    sh 'apk add python3 py-pip'
+    sh 'apk add docker'
+    sh 'apk add python3'
     sh 'pip install Flask'
     sh 'pip install xmlrunner'
     sh 'python3 TestMe.py'
