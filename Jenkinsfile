@@ -33,7 +33,7 @@ pipeline {
     }
     success {
       echo "Application testing successfully completed "
-      sh 'docker ps'
+      sh 'docker build --tag py_app:1.0 .'
     }
     failure {
       echo "Oooppss!!! Tests failed!"
