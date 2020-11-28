@@ -1,7 +1,7 @@
 pipeline
 {
     environment {
-        registryCredential = 'dockerhub'
+        registryCredential = '343757d8-42b8-4283-a65c-e4b3bb8a6ab2'
         dockerImage = ''
     }
 	options
