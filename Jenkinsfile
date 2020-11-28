@@ -83,3 +83,4 @@ pipeline
 		} // stage Build
 	} // stages
 }
+}
