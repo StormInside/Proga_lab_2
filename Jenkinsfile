@@ -39,9 +39,8 @@ pipeline
 			}
 			steps
 			{
-				//sh 'pip install --no-cache-dir -r ./requirements.txt'
-				sh 'apk add python3 py-pip'
-				sh 'pip install Flask'
+			    sh 'apk add python3 py-pip'
+			    sh 'pip install Flask'
 			    sh 'pip install xmlrunner'
 			    sh 'python3 TestMe.py'
 			}
@@ -74,10 +73,10 @@ pipeline
                 checkout scm
                 script {
                     def customImage = docker.build("docker-test:${env.BUILD_ID}")
-                    //docker.withRegistry('',registryCredential )
-                    //{
-                    //    customImage.push()}
-                    //}
+                    docker.withRegistry('',registryCredential )
+                    {
+                        customImage.push()}
+                    }
 
             }
 		} // stage Build
