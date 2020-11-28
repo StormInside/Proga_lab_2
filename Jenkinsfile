@@ -33,14 +33,17 @@ pipeline
 			{
 				docker
 				{
-					image 'python:3.8.6-slim'
+					image 'alpine'
 					args '-u=\"root\"'
 				}
 			}
 			steps
 			{
-				sh 'pip install --no-cache-dir -r ./requirements.txt'
-				sh 'python3 unitTest.py'
+				//sh 'pip install --no-cache-dir -r ./requirements.txt'
+				sh 'apk add python3 py-pip'
+				sh 'pip install Flask'
+			    sh 'pip install xmlrunner'
+			    sh 'python3 TestMe.py'
 			}
 			post
 			{
@@ -71,10 +74,10 @@ pipeline
                 checkout scm
                 script {
                     def customImage = docker.build("docker-test:${env.BUILD_ID}")
-                    docker.withRegistry('',registryCredential )
-                    {
-                        customImage.push()}
-                    }
+                    //docker.withRegistry('',registryCredential )
+                    //{
+                    //    customImage.push()}
+                    //}
 
             }
 		} // stage Build
