@@ -75,11 +75,11 @@ pipeline
                     def customImage = docker.build("docker-test:${env.BUILD_ID}")
                     docker.withRegistry('',registryCredential )
                     {
-                        customImage.push()}
+                        customImage.push()
                     }
-
+                }
             }
 		} // stage Build
 	} // stages
 }
-}
+
